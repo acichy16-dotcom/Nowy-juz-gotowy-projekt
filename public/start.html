@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#695cff">
+  <meta name="description" content="Zeskanuj kartę Pokémon, rozpoznaj ją i uporządkuj kolekcję. Zainstaluj CichyDex bezpłatnie na telefonie.">
+  <meta property="og:title" content="CichyDex — Twoja kolekcja bez chaosu">
+  <meta property="og:description" content="Skanuj karty Pokémon, wykrywaj duplikaty i porządkuj kolekcję. Otwórz i zainstaluj na telefonie.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cichydex-scanner.cichyjpdgl.chatgpt.site/start.html">
+  <meta property="og:image" content="https://cichydex-scanner.cichyjpdgl.chatgpt.site/og-cichydex.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CichyDex — Skaner kart Pokémon">
+  <meta name="twitter:description" content="Skanuj, rozpoznawaj i porządkuj kolekcję w telefonie.">
+  <meta name="twitter:image" content="https://cichydex-scanner.cichyjpdgl.chatgpt.site/og-cichydex.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>CichyDex — Zainstaluj aplikację</title>
+  <style>
+    :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;--cyan:#64eaff;--violet:#8a72ff;--gold:#ffd75b;--muted:#b4bad1}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:#fff;background:radial-gradient(circle at 75% 10%,#402d89 0,transparent 34%),radial-gradient(circle at 15% 65%,#0e6c7d55 0,transparent 30%),#050713;overflow-x:hidden}button,a{font:inherit}.glow{position:fixed;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 15%,#7762ff12,transparent 48%,#4ce5ff12 70%,transparent);filter:blur(35px)}
+    .wrap{width:min(1080px,100%);margin:auto;padding:24px 20px 70px;position:relative}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:21px}.brand img{width:48px;height:48px;border-radius:15px;box-shadow:0 0 30px #6feaff55}.pill{font-size:12px;color:#c8f9ff;border:1px solid #62eaff55;background:#10213a;padding:8px 12px;border-radius:999px}
+    .hero{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:54px;min-height:680px;padding:52px 0}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#7df0ff;font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase}.eyebrow:before{content:"";width:26px;height:2px;background:#6deaff;box-shadow:0 0 9px #6deaff}.hero h1{font-size:clamp(46px,7vw,82px);line-height:.94;letter-spacing:-.065em;margin:18px 0 22px}.hero h1 span{background:linear-gradient(95deg,#fff 10%,#c5bbff 53%,#70efff);background-clip:text;color:transparent}.lead{font-size:clamp(18px,2vw,22px);line-height:1.5;color:#c2c6d9;max-width:610px;margin:0 0 30px}.actions{display:flex;gap:12px;flex-wrap:wrap}.cta{border:0;border-radius:17px;padding:17px 24px;font-weight:900;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:190px;cursor:pointer}.cta.main{background:linear-gradient(105deg,#fff07e,#ffb745);color:#151727;box-shadow:0 16px 38px #ffbd4a42}.cta.alt{background:#ffffff0d;border:1px solid #ffffff26;color:#fff}.micro{margin-top:14px;color:#9ba4bf;font-size:12px}.micro strong{color:#7ef3c1}
+    .phone{width:min(360px,86vw);margin:auto;padding:13px;border-radius:46px;background:linear-gradient(145deg,#3a4165,#070916);box-shadow:0 40px 90px #000b,0 0 65px #735fff45,inset 0 1px #ffffff66;transform:rotate(2deg)}.screen{min-height:650px;border-radius:35px;padding:25px 20px;background:radial-gradient(circle at 50% 0,#322873,transparent 38%),#080b18;position:relative;overflow:hidden}.notch{width:100px;height:21px;border-radius:20px;background:#02030a;margin:-14px auto 28px}.appbrand{display:flex;align-items:center;gap:9px;font-weight:850}.appbrand img{width:36px;height:36px;border-radius:12px}.screen h2{font-size:31px;letter-spacing:-.05em;line-height:1.04;margin:35px 0 10px}.screen p{color:#aeb5ca;font-size:13px}.scanbox{margin:24px 0;padding:22px;border:1px solid #ffffff22;border-radius:25px;background:linear-gradient(145deg,#171c35,#0f182c);text-align:center}.orb{width:120px;height:120px;margin:0 auto 22px;border-radius:28px;border:3px solid #6beaff;box-shadow:0 0 30px #68eaff45,inset 0 0 24px #806eff38;display:grid;place-items:center;font-size:43px}.fakebtn{padding:14px;border-radius:15px;background:linear-gradient(105deg,#fff07e,#ffb745);color:#171827;font-weight:900}.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mini div{padding:13px 6px;border:1px solid #ffffff16;border-radius:14px;background:#ffffff07}.mini b,.mini small{display:block}.mini b{font-size:20px}.mini small{font-size:9px;color:#9da5bd;margin-top:3px}
+    .proof{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 48px}.proof article{padding:23px;border:1px solid #ffffff18;border-radius:23px;background:#ffffff08;backdrop-filter:blur(18px)}.proof b{font-size:25px;display:block;margin-bottom:9px}.proof h3{margin:0 0 8px}.proof p{color:var(--muted);font-size:14px;line-height:1.5;margin:0}.trust{margin:0 0 48px;padding:28px;border:1px solid #4af0ad55;border-radius:26px;background:linear-gradient(145deg,#102c29,#101526)}.trust h2{font-size:30px;margin:0 0 16px}.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.check{padding:13px;border-radius:14px;background:#ffffff08;color:#dffdf2}.check:before{content:'✓';color:#61f0b0;font-weight:900;margin-right:9px}.owner{margin-top:18px;color:#aeb8cc;font-size:13px}.owner strong{color:#fff}.legal{margin-top:18px;font-size:12px}.legal a{color:#8decff;text-decoration:none;margin:0 7px}.final{text-align:center;padding:46px 20px;border:1px solid #67eaff33;border-radius:30px;background:linear-gradient(135deg,#201c44,#0b2231);box-shadow:0 25px 70px #0008}.final h2{font-size:clamp(32px,5vw,50px);letter-spacing:-.05em;margin:0 0 12px}.final p{color:#c0c6d8;margin:0 auto 25px;max-width:590px}.share{margin-top:13px;border:0;background:transparent;color:#83ecff;text-decoration:underline;cursor:pointer}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);padding:12px 18px;border-radius:14px;background:#eafcff;color:#101528;font-weight:800;transition:.3s;z-index:5}.toast.show{transform:translateX(-50%) translateY(0)}
+    @media(max-width:780px){.wrap{padding-top:18px}.hero{grid-template-columns:1fr;gap:42px;padding:55px 0;min-height:auto}.hero h1{font-size:52px}.hero-copy{text-align:center}.eyebrow{justify-content:center}.lead{font-size:18px}.actions{justify-content:center}.proof,.checks{grid-template-columns:1fr}.phone{transform:none}.screen{min-height:610px}.pill{display:none}}
+  </style>
+</head>
+<body>
+<div class="glow"></div>
+<main class="wrap">
+  <header class="top"><div class="brand"><img src="icons/icon-192.png" alt="Logo CichyDex">CichyDex</div><div class="pill">Bezpłatna instalacja na telefonie</div></header>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">Skaner kolekcji w telefonie</div>
+      <h1><span>Twoje karty.<br>Wreszcie ogarnięte.</span></h1>
+      <p class="lead">Zrób zdjęcie karty Pokémon. CichyDex pomoże ją rozpoznać, zapisać w kolekcji i szybko wskazać duplikaty.</p>
+      <div class="actions">
+        <button class="cta main" id="install">⬇ Zainstaluj bezpłatnie</button>
+        <a class="cta alt" href="./?from=social">Zeskanuj pierwszą kartę</a>
+      </div>
+      <div class="micro"><strong>Bez rejestracji.</strong> Zdjęcia pozostają na Twoim urządzeniu.</div>
+    </div>
+    <div class="phone" aria-label="Podgląd aplikacji CichyDex">
+      <div class="screen"><div class="notch"></div><div class="appbrand"><img src="icons/icon-192.png" alt="">CichyDex</div><h2>Twoja kolekcja.<br>Bez chaosu.</h2><p>Skanuj, sortuj i od razu widzisz duplikaty.</p><div class="scanbox"><div class="orb">◉</div><div class="fakebtn">Zeskanuj kartę</div></div><div class="mini"><div><b>128</b><small>KARTY</small></div><div><b>96</b><small>POZYCJE</small></div><div><b>12</b><small>DUPLIKATY</small></div></div></div>
+    </div>
+  </section>
+  <section class="proof">
+    <article><b>📷</b><h3>Skanujesz zdjęciem</h3><p>Aparat telefonu robi kadr, a CichyDex odczytuje nazwę oraz numer karty.</p></article>
+    <article><b>🗂️</b><h3>Budujesz kolekcję</h3><p>Karty trafiają do czytelnego albumu z językiem, serią, wariantem i liczbą sztuk.</p></article>
+    <article><b>♻️</b><h3>Widzisz duplikaty</h3><p>Od razu wiesz, które karty masz podwójnie i możesz przeznaczyć do wymiany.</p></article>
+  </section>
+  <section class="trust"><h2>Jasne zasady. Zero ukrytych sztuczek.</h2><div class="checks"><div class="check">Nie wymagamy konta ani hasła</div><div class="check">Nie ma automatycznej subskrypcji</div><div class="check">Zdjęcia kart nie są wysyłane na serwer</div><div class="check">Kolekcja pozostaje w pamięci telefonu</div></div><p class="owner"><strong>Twórca:</strong> Adam Cichocki • marka Cichy TV • publiczna beta 0.39</p><div class="legal"><a href="https://www.youtube.com/@AdamCichocki-i8l" rel="me noopener">Oficjalny kanał Cichy TV</a><a href="https://github.com/acichy16-dotcom/Nowy-juz-gotowy-projekt" rel="noopener">Kod źródłowy</a><a href="about.html">O projekcie</a><a href="privacy.html">Prywatność</a><a href="security.html">Bezpieczeństwo</a><a href="terms.html">Regulamin</a></div></section>
+  <section class="final"><h2>Jedno zdjęcie. Pełny porządek.</h2><p>Otwórz CichyDex na telefonie, zainstaluj ikonę na ekranie i zacznij od pierwszej karty.</p><button class="cta main" id="installBottom">Zainstaluj CichyDex</button><br><button class="share" id="share">Udostępnij znajomym kolekcjonerom</button></section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+  let promptEvent=null;
+  const appUrl=new URL('./',location.href).href;
+  const toast=document.querySelector('#toast');
+  const show=message=>{toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),4200)};
+  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();promptEvent=event});
+  window.addEventListener('appinstalled',()=>show('CichyDex został zainstalowany'));
+  async function install(){
+    if(matchMedia('(display-mode: standalone)').matches){location.href=appUrl;return}
+    if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;return}
+    if(/iphone|ipad|ipod/i.test(navigator.userAgent)){show('W Safari wybierz Udostępnij i Dodaj do ekranu początkowego');return}
+    show('Otwórz stronę w Chrome i wybierz Zainstaluj aplikację');
+  }
+  document.querySelector('#install').onclick=install;
+  document.querySelector('#installBottom').onclick=install;
+  document.querySelector('#share').onclick=async()=>{
+    const data={title:'CichyDex',text:'Zeskanuj i uporządkuj swoją kolekcję kart Pokémon w telefonie.',url:location.href};
+    try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);show('Link został skopiowany')}}catch(error){}
+  };
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>

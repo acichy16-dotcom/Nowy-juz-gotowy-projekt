@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#695cff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CichyDex">
+  <meta name="description" content="CichyDex to szybki skaner i organizer kart Pokémon działający bezpośrednio w telefonie.">
+  <meta property="og:title" content="CichyDex Scanner">
+  <meta property="og:description" content="Zeskanuj kartę Pokémon, rozpoznaj ją i uporządkuj kolekcję.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cichydex-scanner.cichyjpdgl.chatgpt.site">
+  <link rel="canonical" href="https://cichydex-scanner.cichyjpdgl.chatgpt.site">
+  <title>CichyDex Scanner</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <style>
+    :root{color-scheme:dark;--bg:#050611;--panel:#0d1020;--panel2:#15192e;--text:#fbfbff;--muted:#9b9fb5;--line:#2b2f49;--violet:#826dff;--cyan:#47e6ff;--gold:#ffe16b;--green:#4af0ad;--red:#ff6687;font-family:Inter,system-ui,sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#38267b 0,transparent 42%),linear-gradient(180deg,#070815,#04050d 70%);color:var(--text);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.stars{position:fixed;inset:0;pointer-events:none;opacity:.8;background:linear-gradient(115deg,transparent 10%,#7160ff12 35%,#2be1ff12 55%,transparent 82%);filter:blur(24px);animation:ambient 9s ease-in-out infinite alternate}@keyframes ambient{to{transform:translate3d(3%,-2%,0) scale(1.08)}}
+    .app{width:min(760px,100%);margin:auto;min-height:100vh;padding:20px 18px 100px;position:relative}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{position:relative;width:48px;height:48px;border-radius:17px;display:grid;place-items:center;background:linear-gradient(145deg,#9987ff,#43def7);box-shadow:0 0 34px #7561ff66,inset 0 1px #ffffffaa;color:#0a0b17;font-weight:900}.logo:after{content:"";position:absolute;inset:4px;border:1px solid #fff7;border-radius:13px}.brand strong,.brand small{display:block}.brand strong{letter-spacing:-.02em}.brand small{color:var(--muted);font-size:12px}.lang{border:1px solid #ffffff20;background:#111426cc;backdrop-filter:blur(18px);color:var(--text);border-radius:14px;padding:10px 12px;box-shadow:inset 0 1px #ffffff10}
+    h1{font-size:31px;margin:0 0 7px;letter-spacing:-.05em;line-height:1.05;background:linear-gradient(100deg,#fff 15%,#d7d0ff 55%,#84ecff);background-clip:text;color:transparent}h2{font-size:17px;margin:0}.intro{color:var(--muted);margin:0 0 22px;font-size:14px}.hero{position:relative;overflow:hidden;border:1px solid #ffffff26;background:linear-gradient(145deg,#181a34e8,#101a2ee8);backdrop-filter:blur(24px);border-radius:30px;padding:24px;box-shadow:0 24px 70px #000a,0 0 0 1px #795fff12,inset 0 1px #ffffff25}.hero:before{content:"";position:absolute;width:230px;height:230px;left:-80px;top:-120px;border-radius:50%;background:#755cff33;filter:blur(15px)}.hero:after{content:"";position:absolute;width:210px;height:210px;right:-100px;bottom:-120px;border-radius:50%;background:#27dfff2b;filter:blur(18px)}.scan-orb{position:relative;z-index:1;width:132px;height:132px;border-radius:30px;display:grid;place-items:center;margin:4px auto 24px;background:linear-gradient(145deg,#1d2144,#0d1124);border:1px solid #ffffff3b;box-shadow:0 18px 55px #0008,0 0 45px #7060ff42,inset 0 0 24px #56e7ff17;animation:pulse 2.4s ease-in-out infinite}.scan-orb:before,.scan-orb:after{content:"";position:absolute;inset:13px;border:2px solid #70e9ff;border-left-color:#8a73ff;border-radius:22px;filter:drop-shadow(0 0 8px #52e4ff)}.scan-orb:after{inset:28px;border-radius:50%;border-style:dashed;animation:spin 7s linear infinite}.scan-orb span{font-size:37px;color:#fff;text-shadow:0 0 16px #62e5ff}@keyframes pulse{50%{transform:translateY(-3px);filter:brightness(1.18)}}@keyframes spin{to{transform:rotate(360deg)}}
+    .primary{position:relative;z-index:1;width:100%;border:0;border-radius:17px;padding:16px;background:linear-gradient(105deg,#fff082,#ffbc4a);color:#151729;font-weight:900;box-shadow:0 12px 30px #ffbd4142,inset 0 1px #fff}.primary:active{transform:translateY(1px)}.subaction{position:relative;z-index:1;display:flex;gap:10px;margin-top:10px}.secondary{flex:1;border:1px solid #ffffff1f;border-radius:15px;padding:13px;background:#ffffff0a;color:var(--text);backdrop-filter:blur(14px)}input[type=file]{display:none}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.stat{padding:16px;border:1px solid #ffffff16;border-radius:19px;background:linear-gradient(145deg,#15182bbb,#0b0e1dbb);backdrop-filter:blur(18px);box-shadow:inset 0 1px #ffffff0e}.stat strong,.stat span{display:block}.stat strong{font-size:23px;background:linear-gradient(90deg,#fff,#96edff);background-clip:text;color:transparent}.stat span{font-size:11px;color:var(--muted)}.section{margin-top:24px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.ghost{border:0;background:transparent;color:var(--cyan)}
+    .empty{text-align:center;padding:28px 18px;border:1px dashed #36436d;border-radius:20px;color:var(--muted)}.list{display:grid;gap:9px}.card{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:17px;background:#0c1328}.thumb{width:52px;height:67px;border-radius:9px;background:linear-gradient(145deg,#685bff,#26cceb);display:grid;place-items:center;font-size:22px;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:contain}.card strong,.card small{display:block}.card small{color:var(--muted);margin-top:4px}.count{background:#202a4a;border-radius:999px;padding:6px 9px;color:var(--gold);font-size:12px}
+    .bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 12px max(9px,env(safe-area-inset-bottom));background:#090b18e8;backdrop-filter:blur(28px);border-top:1px solid #ffffff18;z-index:5;box-shadow:0 -12px 40px #0008}.navbtn{border:0;background:transparent;color:var(--muted);padding:8px 2px;font-size:11px}.navbtn b{display:block;font-size:19px;margin-bottom:2px}.navbtn.active{color:#85edff;text-shadow:0 0 12px #4de6ff}
+    .view{display:none}.view.active{display:block}.toolbar{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}.search{flex:1;min-width:180px;background:#0d142a;border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--text)}.sort{background:#0d142a;border:1px solid var(--line);border-radius:14px;color:var(--text);padding:10px}.view-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#0d142a;border:1px solid var(--line);border-radius:14px;padding:4px}.view-switch button{border:0;border-radius:10px;padding:7px 10px;background:transparent;color:var(--muted)}.view-switch button.active{background:#292f52;color:#fff}.exportbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0}.selectall{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px}.export-actions{display:flex;gap:7px}.mini-btn{border:1px solid var(--line);border-radius:11px;padding:8px 10px;background:#151a31;color:var(--text);font-size:11px}.mini-btn.accent{border-color:#5d57a8;color:#bfefff}.album{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.album-card{position:relative;min-width:0;padding:12px;border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,#151a31,#0a0e1d);overflow:hidden}.album-card.selected{border-color:#55e2ff;box-shadow:0 0 0 1px #55e2ff44,0 0 25px #55e2ff18}.album-card input{position:absolute;top:11px;right:11px;accent-color:#57e6ff}.album-art{height:116px;border-radius:13px;background:linear-gradient(135deg,#6e5eff,#1fbfdc);display:grid;place-items:center;font-size:36px;margin-bottom:9px;box-shadow:inset 0 1px #ffffff66}.album-art img{width:100%;height:100%;object-fit:contain;border-radius:10px}.album-card strong,.album-card small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.album-card small{color:var(--muted);font-size:11px;margin-top:4px}.album-card .count{position:absolute;right:10px;bottom:10px}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;background:var(--green)}.status-dot.trade{background:var(--cyan)}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:17px;background:#0c1020}.cards-table{width:100%;border-collapse:collapse;min-width:560px}.cards-table th,.cards-table td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:12px}.cards-table th{color:var(--muted);font-weight:500}.cards-table tr:last-child td{border-bottom:0}.cards-table input{accent-color:#57e6ff}.modal{position:fixed;inset:0;background:#030510dd;z-index:20;display:none;place-items:end center}.modal.open{display:grid}.sheet{width:min(760px,100%);background:#11182e;border:1px solid #354164;border-radius:26px 26px 0 0;padding:22px 18px 30px;max-height:92vh;overflow:auto}.sheet h2{font-size:21px;margin-bottom:6px}.sheet p{color:var(--muted);font-size:13px}.field{width:100%;margin:8px 0;padding:13px;border:1px solid var(--line);border-radius:13px;background:#090f22;color:var(--text)}.row{display:flex;gap:8px}.row>*{flex:1}.close{float:right;border:0;background:#283252;color:var(--text);border-radius:50%;width:35px;height:35px}.notice{font-size:12px;color:var(--green);margin-top:10px;text-align:center}.danger{color:var(--red)}.ocr-diagnostic{display:none;margin:10px 0;padding:10px 12px;border:1px solid #59688f;border-radius:12px;background:#090f22;color:#dbe8ff;font-size:12px;line-height:1.35;overflow-wrap:anywhere}.ocr-diagnostic.show{display:block}.ocr-diagnostic.error{border-color:#ff7185;color:#ffd4da}.catalog-results{display:grid;gap:6px;max-height:190px;overflow:auto}.catalog-item{border:1px solid var(--line);background:#0b1021;color:var(--text);border-radius:12px;padding:8px;display:grid;grid-template-columns:42px 1fr;gap:9px;text-align:left}.catalog-item img{width:42px;height:56px;object-fit:contain}.catalog-item strong,.catalog-item small{display:block}.catalog-item small,.catalog-state{color:var(--muted);font-size:11px;margin-top:3px}.catalog-state{padding:4px 2px}
+    .paybox{padding:18px;border:1px solid #4af0ad55;border-radius:21px;background:linear-gradient(145deg,#152d2a,#101427);box-shadow:0 14px 35px #0006}.paybox p{color:var(--muted);font-size:13px}.paybtn{display:block;text-align:center;text-decoration:none;margin-top:12px}.legalbar{margin:22px 0 6px;text-align:center;color:var(--muted);font-size:11px;line-height:1.7}.legalbar a{color:#aeefff;text-decoration:none;margin:0 5px}.legalbar strong{color:#fff}
+    .community{margin:15px 0;padding:14px;border:1px solid #4de6ff40;border-radius:19px;background:#0c1429}.community-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.community-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.community-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:11px}.community-item{text-align:center;padding:8px 3px;border-radius:12px;background:#ffffff08}.community-item strong,.community-item small{display:block}.community-item strong{font-size:18px;color:#8dedff}.community-item small{font-size:9px;color:var(--muted)}.sharebtn{border:1px solid #57e6ff66;border-radius:11px;padding:8px 10px;background:#172542;color:#aef4ff;font-size:11px}.installbtn{border-color:#ffe16b88;color:#ffe892;background:#342c18}.install-help{display:none;margin-top:9px;padding:10px;border-radius:11px;background:#ffffff09;color:#cbd4ed;font-size:11px;line-height:1.4}.install-help.show{display:block}
+    .livecam{position:fixed;inset:0;z-index:60;background:#000;display:none;overflow:hidden}.livecam.open{display:block}.livecam video{width:100%;height:100%;object-fit:cover}.camera-guide{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(82vw,390px);aspect-ratio:63/88;pointer-events:none;background:linear-gradient(#74edff,#74edff) left top/64px 4px no-repeat,linear-gradient(#74edff,#74edff) left top/4px 64px no-repeat,linear-gradient(#74edff,#74edff) right bottom/64px 4px no-repeat,linear-gradient(#74edff,#74edff) right bottom/4px 64px no-repeat;filter:drop-shadow(0 0 8px #22dffb)}.camera-actions{position:absolute;left:0;right:0;bottom:max(18px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;gap:28px}.shutter{width:78px;height:78px;border-radius:50%;border:7px solid #fff;background:#fff3;box-shadow:0 0 0 3px #0008}.camclose{width:50px;height:50px;border-radius:50%;border:1px solid #ffffff55;background:#0b1021dd;color:#fff;font-size:25px}.camhint{position:absolute;left:16px;right:16px;bottom:112px;text-align:center;color:#dffcff;font-size:12px;text-shadow:0 1px 5px #000}.zoomrow{display:none}.ocr-preview{display:none;width:118px;max-height:165px;object-fit:contain;margin:8px auto;border:2px solid #56dff5;border-radius:10px;background:#000}.ocr-preview.show{display:block}
+    @media(min-width:700px){.app{padding-top:35px}.hero{padding:30px}.scan-orb{width:126px;height:126px}.bottom{border-radius:22px 22px 0 0}}
+  </style>
+</head>
+<body>
+<div class="stars"></div>
+<main class="app">
+  <header class="top"><div class="brand"><div class="logo">CD</div><div><strong>CichyDex</strong><small data-t="subtitle">Pokémon Card Scanner</small><small style="color:#58e9ff">Publiczna beta 0.39 • Adam Cichocki</small></div></div><select class="lang" id="lang"><option value="pl">PL</option><option value="de">DE</option><option value="en">EN</option></select></header>
+  <section class="view active" id="scan">
+    <h1 data-t="hello">Twoja kolekcja. Bez chaosu.</h1><p class="intro" data-t="intro">Skanuj, sortuj i od razu widzisz duplikaty oraz brakujące karty.</p>
+    <div class="hero"><div class="scan-orb"><span>◉</span></div><button class="primary" id="camera" data-t="scan">Zeskanuj kartę</button><div class="subaction"><button class="secondary" id="manual" data-t="manual">Dodaj ręcznie</button><button class="secondary" id="binder" data-t="binder">Strona klasera</button></div><input type="file" id="photo" accept="image/*" capture="environment"><div class="notice" id="scanState" data-t="local">Zdjęcia pozostają na Twoim urządzeniu</div></div>
+    <div class="stats"><div class="stat"><strong id="total">0</strong><span data-t="cards">Karty</span></div><div class="stat"><strong id="unique">0</strong><span data-t="unique">Unikalne</span></div><div class="stat"><strong id="dupes">0</strong><span data-t="duplicates">Duplikaty</span></div></div>
+    <div class="community"><div class="community-head"><h2>CichyDex</h2><div class="community-actions"><button class="sharebtn installbtn" id="installApp">Zainstaluj aplikację</button><button class="sharebtn" id="shareApp">Udostępnij</button></div></div><div class="install-help" id="installHelp"></div><div class="community-grid"><div class="community-item"><strong id="metricVisitors">…</strong><small>testerzy</small></div><div class="community-item"><strong id="metricViews">…</strong><small>wejścia</small></div><div class="community-item"><strong id="metricScans">…</strong><small>skany</small></div><div class="community-item"><strong id="metricMatches">…</strong><small>dopasowania</small></div></div></div>
+    <div class="paybox"><h2 id="payTitle">Bezpieczna publiczna beta</h2><p id="payText">Bez konta, bez hasła i bez automatycznej subskrypcji. Zdjęcie karty jest analizowane lokalnie na telefonie.</p><a class="secondary paybtn" id="payBtn" href="security.html">Sprawdź, jak chronimy dane</a></div>
+    <div class="section"><div class="section-head"><h2 data-t="recent">Ostatnio dodane</h2></div><div id="recent"></div></div>
+  </section>
+  <section class="view" id="collection"><h1 data-t="collection">Kolekcja</h1><p class="intro" data-t="collectionSub">Wszystkie karty w jednym czystym widoku.</p><div class="toolbar"><input class="search" id="search" data-ph="search" placeholder="Szukaj karty"><select class="sort" id="sort"><option value="new" data-t="newest">Najnowsze</option><option value="name" data-t="name">Nazwa</option><option value="set" data-t="set">Seria</option><option value="number" data-t="number">Numer</option><option value="qty" data-t="quantity">Liczba</option></select><select class="sort" id="langFilter"><option value="" data-t="allLang">Wszystkie języki</option><option>PL</option><option>DE</option><option>EN</option><option>JP</option><option value="?">?</option></select><div class="view-switch"><button id="albumMode" class="active" data-t="album">Album</button><button id="tableMode" data-t="table">Tabela</button></div></div><div class="exportbar"><label class="selectall"><input type="checkbox" id="selectAll"> <span data-t="selectAll">Zaznacz wszystko</span></label><div class="export-actions"><button class="mini-btn" id="import" data-t="import">Import</button><input type="file" id="importFile" accept=".csv,.json,text/csv,application/json"><button class="mini-btn" id="backup" data-t="backup">Kopia</button><button class="mini-btn accent" id="export" data-t="export">Eksport CSV</button></div></div><div id="importNotice" class="notice"></div><div id="collectionList"></div><button class="secondary" id="more" style="display:none;margin:14px auto" data-t="more">Pokaż więcej</button></section>
+  <section class="view" id="missing"><h1 data-t="missing">Brakujące</h1><p class="intro" data-t="missingSub">Wybierz serię, a później pokażemy dokładną listę braków.</p><div class="empty" data-t="missingEmpty">Dodaj pierwsze karty z jednej serii, aby rozpocząć kompletowanie.</div></section>
+  <section class="view" id="duplicates"><h1 data-t="duplicates">Duplikaty</h1><p class="intro" data-t="duplicatesSub">Gotowa lista kart do wymiany.</p><div class="list" id="duplicateList"></div></section>
+  <footer class="legalbar"><strong>CichyDex</strong> • twórca Adam Cichocki • marka Cichy TV<br><a href="https://www.youtube.com/@AdamCichocki-i8l" rel="me noopener">Oficjalny kanał</a><a href="https://github.com/acichy16-dotcom/Nowy-juz-gotowy-projekt" rel="noopener">Kod źródłowy</a><a href="about.html">O projekcie</a><a href="privacy.html">Prywatność</a><a href="security.html">Bezpieczeństwo</a><a href="terms.html">Regulamin</a></footer>
+</main>
+<nav class="bottom"><button class="navbtn active" data-view="scan"><b>⌾</b><span data-t="navScan">Skanuj</span></button><button class="navbtn" data-view="collection"><b>▦</b><span data-t="navCollection">Kolekcja</span></button><button class="navbtn" data-view="missing"><b>◇</b><span data-t="navMissing">Brakujące</span></button><button class="navbtn" data-view="duplicates"><b>♢</b><span data-t="navDuplicates">Duplikaty</span></button></nav>
+<div class="livecam" id="livecam"><video id="cameraVideo" playsinline muted></video><div class="camera-guide"></div><div class="camhint">Cała karta ma być ostra i widoczna w ramce.</div><label class="zoomrow"><span>Zoom</span><input id="camzoom" type="range" min="1" max="3" step="0.1" value="1"><span id="zoomvalue">1.0×</span></label><div class="camera-actions"><button class="camclose" id="camclose" aria-label="Zamknij">×</button><button class="shutter" id="shutter" aria-label="Zrób zdjęcie"></button></div></div>
+<div class="modal" id="modal"><div class="sheet"><button class="close" id="close">×</button><h2 data-t="addTitle">Dodaj kartę</h2><p data-t="addHelp">Wpisz nazwę i wybierz właściwą kartę z katalogu.</p><div id="ocrDiagnostic" class="ocr-diagnostic" role="status"></div><img id="ocrPreview" class="ocr-preview" alt="Kadr przekazany do OCR"><input class="field" id="cardName" data-ph="cardName" placeholder="Nazwa, np. Pikachu"><div id="catalogResults" class="catalog-results"></div><div class="row"><input class="field" id="cardSet" data-ph="cardSet" placeholder="Seria"><input class="field" id="cardNo" data-ph="cardNo" placeholder="Numer"></div><div class="row"><select class="field" id="cardLang"><option>DE</option><option>EN</option><option>PL</option><option>JP</option></select><input class="field" id="cardQty" type="number" min="1" value="1"></div><select class="field" id="cardVariant" required><option value="" selected disabled>Wybierz wariant karty</option><option value="Normal">Normal</option><option value="Holo">Holo</option><option value="Reverse Holo">Reverse Holo</option></select><select class="field" id="cardStatus"><option value="owned">✓ Mam</option><option value="trade">↔ Do wymiany</option></select><button class="primary" id="save" data-t="save">Zapisz w kolekcji</button></div></div>
+<script src="./vendor/tesseract.min.js"></script>
+<script>
+const I={pl:{subtitle:'Skaner kart Pokémon',hello:'Twoja kolekcja. Bez chaosu.',intro:'Skanuj, sortuj i od razu widzisz duplikaty oraz brakujące karty.',scan:'Zeskanuj kartę',manual:'Dodaj ręcznie',binder:'Strona klasera',local:'Zdjęcia pozostają na Twoim urządzeniu',cards:'Karty',unique:'Pozycje',duplicates:'Duplikaty',recent:'Ostatnio dodane',collection:'Kolekcja',collectionSub:'Wszystkie karty w albumie lub czytelnej tabeli.',search:'Szukaj karty',newest:'Najnowsze',name:'Nazwa',set:'Seria',number:'Numer',quantity:'Liczba',allLang:'Wszystkie języki',album:'Album',table:'Tabela',selectAll:'Zaznacz wszystko',import:'Import Collectr',backup:'Kopia',export:'Eksport CSV',more:'Pokaż więcej',missing:'Brakujące',missingSub:'Wybierz serię, a później pokażemy dokładną listę braków.',missingEmpty:'Dodaj pierwsze karty z jednej serii, aby rozpocząć kompletowanie.',duplicatesSub:'Gotowa lista kart do wymiany.',navScan:'Skanuj',navCollection:'Kolekcja',navMissing:'Brakujące',navDuplicates:'Duplikaty',addTitle:'Dodaj rozpoznaną kartę',addHelp:'W pierwszej wersji potwierdzasz dane. Dzięki temu kolekcja zawsze pozostaje poprawna.',cardName:'Nazwa, np. Pikachu',cardSet:'Seria',cardNo:'Numer',save:'Zapisz w kolekcji',empty:'Kolekcja jest jeszcze pusta.',imported:'Import zakończony',importError:'Nie udało się odczytać pliku.'},de:{subtitle:'Pokémon Kartenscanner',hello:'Deine Sammlung. Ohne Chaos.',intro:'Scannen, sortieren und Duplikate sowie fehlende Karten sofort sehen.',scan:'Karte scannen',manual:'Manuell hinzufügen',binder:'Albumseite',local:'Fotos bleiben auf deinem Gerät',cards:'Karten',unique:'Positionen',duplicates:'Duplikate',recent:'Zuletzt hinzugefügt',collection:'Sammlung',collectionSub:'Alle Karten als Album oder übersichtliche Tabelle.',search:'Karte suchen',newest:'Neueste',name:'Name',set:'Set',number:'Nummer',quantity:'Anzahl',allLang:'Alle Sprachen',album:'Album',table:'Tabelle',selectAll:'Alle auswählen',import:'Collectr importieren',backup:'Sicherung',export:'CSV Export',more:'Mehr anzeigen',missing:'Fehlende',missingSub:'Wähle ein Set, um fehlende Karten zu sehen.',missingEmpty:'Füge Karten eines Sets hinzu, um zu beginnen.',duplicatesSub:'Fertige Liste zum Tauschen.',navScan:'Scannen',navCollection:'Sammlung',navMissing:'Fehlende',navDuplicates:'Duplikate',addTitle:'Erkannte Karte hinzufügen',addHelp:'In der ersten Version bestätigst du die Daten. So bleibt die Sammlung korrekt.',cardName:'Name, z. B. Pikachu',cardSet:'Set',cardNo:'Nummer',save:'In Sammlung speichern',empty:'Die Sammlung ist noch leer.',imported:'Import abgeschlossen',importError:'Die Datei konnte nicht gelesen werden.'},en:{subtitle:'Pokémon Card Scanner',hello:'Your collection. No chaos.',intro:'Scan, sort and instantly see duplicates and missing cards.',scan:'Scan a card',manual:'Add manually',binder:'Binder page',local:'Photos stay on your device',cards:'Cards',unique:'Entries',duplicates:'Duplicates',recent:'Recently added',collection:'Collection',collectionSub:'Every card in a clean album or table.',search:'Search cards',newest:'Newest',name:'Name',set:'Set',number:'Number',quantity:'Quantity',allLang:'All languages',album:'Album',table:'Table',selectAll:'Select all',import:'Import Collectr',backup:'Backup',export:'Export CSV',more:'Show more',missing:'Missing',missingSub:'Choose a set to see exactly what is missing.',missingEmpty:'Add cards from a set to begin completion tracking.',duplicatesSub:'A ready list for trading.',navScan:'Scan',navCollection:'Collection',navMissing:'Missing',navDuplicates:'Duplicates',addTitle:'Add recognized card',addHelp:'In the first version you confirm the data, keeping your collection accurate.',cardName:'Name, e.g. Pikachu',cardSet:'Set',cardNo:'Number',save:'Save to collection',empty:'Your collection is empty.',imported:'Import complete',importError:'The file could not be read.'}};
+const PAY={pl:['Bezpieczna publiczna beta','Bez konta, bez hasła i bez automatycznej subskrypcji. Zdjęcie karty jest analizowane lokalnie na telefonie.','Sprawdź, jak chronimy dane'],de:['Sichere öffentliche Beta','Ohne Konto, Passwort oder automatisches Abo. Das Kartenfoto wird lokal auf deinem Telefon verarbeitet.','Datenschutz und Sicherheit prüfen'],en:['Safe public beta','No account, password or automatic subscription. The card photo is processed locally on your phone.','Check privacy and security']};
+let cards=JSON.parse(localStorage.getItem('cichydex.cards')||'[]');let lang=localStorage.getItem('cichydex.lang')||'pl';let displayMode=localStorage.getItem('cichydex.view')||'album';let selected=new Set(),visibleLimit=120;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);function tr(k){return I[lang][k]||k}function translate(){document.documentElement.lang=lang;$$('[data-t]').forEach(e=>e.textContent=tr(e.dataset.t));$$('[data-ph]').forEach(e=>e.placeholder=tr(e.dataset.ph));$('#lang').value=lang;let p=PAY[lang];$('#payTitle').textContent=p[0];$('#payText').textContent=p[1];$('#payBtn').textContent=p[2]}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const METRIC_ROOT='https://counterapi.com/api/cichydex-scanner.cichyjpdgl.chatgpt.site';
+function metric(action,{readOnly=false,unique=false}={}){return new Promise(resolve=>{let callback='cichyMetric'+Date.now()+Math.random().toString(36).slice(2),script=document.createElement('script'),params=new URLSearchParams({callback});if(readOnly)params.set('readOnly','true');if(unique)params.set('unique','true');let done=data=>{clearTimeout(timer);delete window[callback];script.remove();resolve(data||null)};window[callback]=done;script.onerror=()=>done(null);script.src=`${METRIC_ROOT}/${encodeURIComponent(action)}/app?${params}`;document.head.appendChild(script);let timer=setTimeout(()=>done(null),8000)})}
+async function refreshMetrics(){let [visitors,views,scans,matches]=await Promise.all([metric('visit',{readOnly:true,unique:true}),metric('pageview',{readOnly:true}),metric('scan',{readOnly:true}),metric('matched',{readOnly:true})]);[['#metricVisitors',visitors],['#metricViews',views],['#metricScans',scans],['#metricMatches',matches]].forEach(([id,data])=>{let el=$(id);if(el)el.textContent=data&&Number.isFinite(Number(data.value))?Number(data.value):'0'})}
+function initMetrics(){$$('.community-item strong').forEach(el=>el.textContent='0');Promise.all([metric('visit',{unique:true}),metric('pageview')]).then(refreshMetrics)}
+async function shareApp(){let data={title:'CichyDex Scanner',text:'Przetestuj CichyDex, skaner i organizer kart Pokémon.',url:'https://cichydex-scanner.cichyjpdgl.chatgpt.site'};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(data.url);$('#scanState').textContent='Link do CichyDex skopiowany.'}}catch(_){}}
+function identityKey(c){return [c.name,c.set,c.no,c.lang,c.variance,c.grade,c.condition].map(v=>String(v||'').trim().toLowerCase()).join('|')}
+cards=cards.map(c=>({...c,lang:c.lang||'?',variance:c.variance||'Normal',grade:c.grade||'Ungraded',condition:c.condition||'Near Mint',key:identityKey(c)}));
+function persist(){localStorage.setItem('cichydex.cards',JSON.stringify(cards))}
+function cardPicture(c,size='low'){return c.image?`<img src="${esc(c.image)}/${size}.webp" alt="${esc(c.name)}" loading="lazy">`:'◉'}
+function detail(c){return [c.variance,c.grade!=='Ungraded'?c.grade:'',c.condition!=='Near Mint'?c.condition:''].filter(Boolean).join(' · ')}
+function cardHTML(c){return `<article class="card"><div class="thumb">${cardPicture(c)}</div><div><strong>${esc(c.name)}</strong><small><span class="status-dot ${c.status||'owned'}"></span>${esc(c.set||'—')} · ${esc(c.no||'—')} · ${esc(c.lang)}</small><small>${esc(detail(c))}</small></div><span class="count">×${c.qty}</span></article>`}
+function albumHTML(c){return `<article class="album-card ${selected.has(c.key)?'selected':''}"><input class="pick" type="checkbox" data-key="${esc(c.key)}" ${selected.has(c.key)?'checked':''} aria-label="${esc(c.name)}"><div class="album-art">${cardPicture(c,'high')}</div><strong>${esc(c.name)}</strong><small><span class="status-dot ${c.status||'owned'}"></span>${esc(c.set||'—')} · #${esc(c.no||'—')} · ${esc(c.lang)}</small><small>${esc(detail(c))}</small><span class="count">×${c.qty}</span></article>`}
+function tableHTML(a){return `<div class="table-wrap"><table class="cards-table"><thead><tr><th></th><th>${tr('name')}</th><th>${tr('set')}</th><th>${tr('number')}</th><th>Wariant</th><th>${tr('allLang')}</th><th>${tr('quantity')}</th></tr></thead><tbody>${a.map(c=>`<tr><td><input class="pick" type="checkbox" data-key="${esc(c.key)}" ${selected.has(c.key)?'checked':''}></td><td><strong>${esc(c.name)}</strong></td><td>${esc(c.set||'—')}</td><td>${esc(c.no||'—')}</td><td>${esc(detail(c))}</td><td>${esc(c.lang)}</td><td>×${c.qty}</td></tr>`).join('')}</tbody></table></div>`}
+function filteredCards(){let q=$('#search').value.toLowerCase(),lf=$('#langFilter').value,sorted=[...cards].filter(c=>(c.name+' '+c.set+' '+c.no).toLowerCase().includes(q)&&(!lf||c.lang===lf)),s=$('#sort').value;if(s==='name')sorted.sort((a,b)=>a.name.localeCompare(b.name));if(s==='set')sorted.sort((a,b)=>a.set.localeCompare(b.set));if(s==='number')sorted.sort((a,b)=>String(a.no).localeCompare(String(b.no),undefined,{numeric:true}));if(s==='qty')sorted.sort((a,b)=>b.qty-a.qty);return sorted}
+function bindPicks(){$$('.pick').forEach(x=>x.onchange=()=>{x.checked?selected.add(x.dataset.key):selected.delete(x.dataset.key);render()})}function render(){let total=cards.reduce((a,c)=>a+c.qty,0),dupes=cards.reduce((a,c)=>a+Math.max(0,c.qty-1),0);$('#total').textContent=total;$('#unique').textContent=cards.length;$('#dupes').textContent=dupes;$('#recent').innerHTML=cards.length?`<div class="list">${cards.slice(0,3).map(cardHTML).join('')}</div>`:`<div class="empty">${tr('empty')}</div>`;let sorted=filteredCards(),visible=sorted.slice(0,visibleLimit);$('#albumMode').classList.toggle('active',displayMode==='album');$('#tableMode').classList.toggle('active',displayMode==='table');$('#collectionList').className=displayMode==='album'?'album':'';$('#collectionList').innerHTML=visible.length?(displayMode==='album'?visible.map(albumHTML).join(''):tableHTML(visible)):`<div class="empty">${tr('empty')}</div>`;$('#more').style.display=sorted.length>visible.length?'block':'none';let d=cards.filter(c=>c.qty>1).slice(0,120);$('#duplicateList').innerHTML=d.length?d.map(cardHTML).join(''):`<div class="empty">${tr('empty')}</div>`;$('#selectAll').checked=sorted.length>0&&sorted.every(c=>selected.has(c.key));bindPicks()}
+let chosenImage='',catalogTimer;
+function openModal(){$('#modal').classList.add('open');setTimeout(()=>$('#cardName').focus(),100)}
+function chooseCatalog(c){$('#cardName').value=c.name;$('#cardSet').value=c.set;$('#cardNo').value=c.no;chosenImage=c.image||'';$('#catalogResults').innerHTML=''}
+async function searchCatalog(){let q=$('#cardName').value.trim();if(q.length<3){$('#catalogResults').innerHTML='';return}$('#catalogResults').innerHTML='<div class="catalog-state">Szukam w katalogu…</div>';try{let res=await fetch(`https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(q)}`),data=await res.json(),items=(Array.isArray(data)?data:[]).slice(0,8);$('#catalogResults').innerHTML=items.length?items.map((c,i)=>`<button class="catalog-item" data-i="${i}">${c.image?`<img src="${esc(c.image)}/low.webp" alt="">`:''}<span><strong>${esc(c.name)}</strong><small>${esc(c.id)} · #${esc(c.localId||'')}</small></span></button>`).join(''):'<div class="catalog-state">Nie znaleziono. Wpisz dane ręcznie.</div>';$$('.catalog-item').forEach(b=>b.onclick=()=>{let c=items[+b.dataset.i];chooseCatalog({name:c.name,set:String(c.id||'').split('-')[0],no:c.localId||'',image:c.image||''})})}catch(e){$('#catalogResults').innerHTML='<div class="catalog-state">Katalog chwilowo niedostępny. Wpisz dane ręcznie.</div>'}}
+function scanMsg(pl,de,en){return lang==='de'?de:lang==='en'?en:pl}
+async function scanPhoto(file){$('#scanState').textContent=scanMsg('Rozpoznaję nazwę i numer…','Name und Nummer werden erkannt…','Reading name and number…');try{if(!window.Tesseract)throw Error('ocr');let bmp=await createImageBitmap(file),max=1200,scale=Math.min(1,max/bmp.width),w=Math.round(bmp.width*scale),h=Math.round(bmp.height*scale),crop=Math.round(h*.25),canvas=document.createElement('canvas');canvas.width=w;canvas.height=crop*2;let ctx=canvas.getContext('2d',{alpha:false});ctx.filter='grayscale(1) contrast(1.8)';ctx.drawImage(bmp,0,0,bmp.width,bmp.height*.25,0,0,w,crop);ctx.drawImage(bmp,0,bmp.height*.72,bmp.width,bmp.height*.28,0,crop,w,crop);bmp.close();let worker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text')$('#scanState').textContent=scanMsg(`Rozpoznawanie ${Math.round(m.progress*100)}%`,`Erkennung ${Math.round(m.progress*100)}%`,`Recognition ${Math.round(m.progress*100)}%`)}}),result=await worker.recognize(canvas);await worker.terminate();let text=result.data.text||'',lines=text.split(/\n/).map(x=>x.replace(/[^A-Za-zÀ-ž0-9 .:'&-]/g,' ').replace(/\s+/g,' ').trim()).filter(x=>x.length>2),number=(text.match(/\b\d{1,3}\s*[\/|I]\s*\d{1,3}\b/)||[])[0]||'',name=lines.find(x=>/[A-Za-zÀ-ž]{3}/.test(x)&&!/^basic|stage|trainer|energy|illustrator/i.test(x))||'';name=name.replace(/\b(?:HP)?\s*\d{2,3}\b.*$/i,'').trim();$('#cardName').value=name;$('#cardNo').value=number.replace(/[|I]/,'/').replace(/\s/g,'');openModal();$('#scanState').textContent=scanMsg('Sprawdź wynik i zatwierdź','Ergebnis prüfen und bestätigen','Check and confirm');if(name.length>=3)searchCatalog()}catch(e){openModal();$('#scanState').textContent=scanMsg('Nie odczytałam pewnie. Popraw dane ręcznie.','Nicht sicher erkannt. Bitte korrigieren.','Not read reliably. Please correct it.')}finally{$('#photo').value=''}}
+$('#manual').onclick=openModal;$('#camera').onclick=()=>$('#photo').click();$('#binder').onclick=()=>$('#photo').click();$('#photo').onchange=()=>{if($('#photo').files.length)scanPhoto($('#photo').files[0])};$('#cardName').oninput=()=>{clearTimeout(catalogTimer);catalogTimer=setTimeout(searchCatalog,380)};$('#close').onclick=()=>$('#modal').classList.remove('open');$('#modal').onclick=e=>{if(e.target.id==='modal')e.currentTarget.classList.remove('open')};$('#save').onclick=()=>{let name=$('#cardName').value.trim();if(!name){$('#cardName').focus();return}let variance=$('#cardVariant').value;if(!variance){$('#cardVariant').focus();return}let set=$('#cardSet').value.trim(),no=$('#cardNo').value.trim(),cl=$('#cardLang').value,qty=Math.max(1,+$('#cardQty').value||1),status=$('#cardStatus').value,item={name,set,no,lang:cl,qty,status,image:chosenImage,variance,grade:'Ungraded',condition:'Near Mint',added:Date.now()};item.key=identityKey(item);let old=cards.find(c=>c.key===item.key);if(old){old.qty+=qty;old.status=status;if(chosenImage)old.image=chosenImage}else cards.unshift(item);persist();$('#modal').classList.remove('open');$('#cardName').value='';$('#cardSet').value='';$('#cardNo').value='';$('#cardQty').value=1;$('#cardVariant').value='';$('#cardStatus').value='owned';$('#catalogResults').innerHTML='';chosenImage='';render()};
+function parseCSV(text){let rows=[],row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){let ch=text[i];if(quoted){if(ch==='"'&&text[i+1]==='"'){cell+='"';i++}else if(ch==='"')quoted=false;else cell+=ch}else if(ch==='"')quoted=true;else if(ch===','){row.push(cell);cell=''}else if(ch==='\n'){row.push(cell.replace(/\r$/,''));rows.push(row);row=[];cell=''}else cell+=ch}if(cell||row.length){row.push(cell.replace(/\r$/,''));rows.push(row)}return rows}
+function fromCollectr(text){let rows=parseCSV(text.replace(/^\ufeff/,'')),heads=rows.shift().map(x=>x.trim()),at=n=>heads.indexOf(n),out=[];if(at('Product Name')<0||at('Quantity')<0)throw Error('format');for(let i=0;i<rows.length;i++){let r=rows[i];if(!r[at('Product Name')])continue;let c={name:r[at('Product Name')].trim(),set:(r[at('Set')]||'').trim(),no:(r[at('Card Number')]||'').trim(),lang:'?',qty:Math.max(1,Number(r[at('Quantity')])||1),status:'owned',image:'',rarity:(r[at('Rarity')]||'').trim(),variance:(r[at('Variance')]||'Normal').trim(),grade:(r[at('Grade')]||'Ungraded').trim(),condition:(r[at('Card Condition')]||'Near Mint').trim(),added:Date.parse(r[at('Date Added')])||Date.now()-i};c.key=identityKey(c);out.push(c)}return out}
+async function importCollection(file){try{let text=await file.text(),incoming;if(file.name.toLowerCase().endsWith('.json')){let data=JSON.parse(text);incoming=(data.cards||data).map(c=>({...c,key:identityKey(c)}))}else incoming=fromCollectr(text);if(!incoming.length)throw Error('empty');localStorage.setItem('cichydex.preImportBackup',JSON.stringify({saved:new Date().toISOString(),cards}));let merged=new Map;incoming.forEach(c=>{let old=merged.get(c.key);old?old.qty+=c.qty:merged.set(c.key,c)});cards=[...merged.values()].sort((a,b)=>b.added-a.added);selected.clear();visibleLimit=120;persist();$('#importNotice').textContent=`${tr('imported')}: ${cards.reduce((a,c)=>a+c.qty,0)} / ${cards.length}`;render()}catch(e){$('#importNotice').textContent=tr('importError')}}
+function download(name,type,data){let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function exportCards(){let chosen=selected.size?cards.filter(c=>selected.has(c.key)):filteredCards(),rows=[['Name','Set','Number','Language','Quantity','Variance','Grade','Condition'],...chosen.map(c=>[c.name,c.set,c.no,c.lang,c.qty,c.variance,c.grade,c.condition])],csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(';')).join('\n');download('cichydex-collection.csv','text/csv;charset=utf-8','\ufeff'+csv)}
+$$('.navbtn').forEach(b=>b.onclick=()=>{$$('.navbtn,.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.view).classList.add('active');render()});$('#lang').onchange=e=>{lang=e.target.value;localStorage.setItem('cichydex.lang',lang);translate();render()};$('#search').oninput=()=>{visibleLimit=120;render()};$('#sort').onchange=()=>{visibleLimit=120;render()};$('#langFilter').onchange=()=>{visibleLimit=120;render()};$('#albumMode').onclick=()=>{displayMode='album';localStorage.setItem('cichydex.view',displayMode);render()};$('#tableMode').onclick=()=>{displayMode='table';localStorage.setItem('cichydex.view',displayMode);render()};$('#selectAll').onchange=e=>{filteredCards().forEach(c=>e.target.checked?selected.add(c.key):selected.delete(c.key));render()};$('#more').onclick=()=>{visibleLimit+=120;render()};$('#import').onclick=()=>$('#importFile').click();$('#importFile').onchange=e=>{if(e.target.files[0])importCollection(e.target.files[0]);e.target.value=''};$('#export').onclick=exportCards;$('#backup').onclick=()=>download('cichydex-backup.json','application/json',JSON.stringify({version:2,exported:new Date().toISOString(),cards},null,2));translate();render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+
+const OCR_ROOT=new URL('./vendor/',location.href).href;
+const APP_VERSION='38';
+async function ensureOCR(){if(window.Tesseract)return;await new Promise((ok,no)=>{let s=document.createElement('script');s.src=OCR_ROOT+'tesseract.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
+function localOCROptions(logger){return{logger,workerPath:OCR_ROOT+'worker.min.js',corePath:OCR_ROOT+'core',langPath:OCR_ROOT+'lang',workerBlobURL:false,gzip:true,cacheMethod:'write'}}
+async function decodeCardImage(file){try{return await createImageBitmap(file,{imageOrientation:'from-image'})}catch(firstError){let url=URL.createObjectURL(file);try{let image=new Image;image.decoding='async';image.src=url;await image.decode();return await createImageBitmap(image)}catch(secondError){throw new Error(`Nie można odczytać zdjęcia: ${secondError.message||firstError.message}`)}finally{URL.revokeObjectURL(url)}}}
+async function scanPhoto(file){let worker;$('#scanState').textContent=scanMsg('Uruchamiam rozpoznawanie…','Erkennung wird gestartet…','Starting recognition…');try{await ensureOCR();let bmp=await createImageBitmap(file),target=Math.min(1800,Math.max(1200,bmp.width)),scale=target/bmp.width,w=Math.round(bmp.width*scale),topH=Math.round(bmp.height*.3*scale),botH=Math.round(bmp.height*.34*scale),canvas=document.createElement('canvas');canvas.width=w;canvas.height=topH+botH;let ctx=canvas.getContext('2d',{alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.filter='grayscale(1) contrast(2)';ctx.drawImage(bmp,0,0,bmp.width,bmp.height*.3,0,0,w,topH);ctx.drawImage(bmp,0,bmp.height*.66,bmp.width,bmp.height*.34,0,topH,w,botH);bmp.close();worker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text')$('#scanState').textContent=scanMsg(`Odczyt ${Math.round(m.progress*100)}%`,`Lesen ${Math.round(m.progress*100)}%`,`Reading ${Math.round(m.progress*100)}%`)}});await worker.setParameters({tessedit_pageseg_mode:Tesseract.PSM.SPARSE_TEXT,preserve_interword_spaces:'1'});let {data}=await worker.recognize(canvas),raw=data.text||'',number=((raw.match(/\b\d{1,3}\s*[\/|I]\s*\d{1,3}\b/)||[])[0]||'').replace(/[|I]/,'/').replace(/\s/g,''),lines=raw.split(/\n/).map(x=>x.replace(/[^A-Za-zÀ-ž0-9 .:'&-]/g,' ').replace(/\s+/g,' ').trim()).filter(x=>x.length>2&&!/^(basic|stage|trainer|energy|illustrator|weakness|resistance|retreat)/i.test(x)),queries=lines.map(x=>x.replace(/\b(?:HP)?\s*\d{2,3}\b.*$/i,'').trim()).filter(x=>x.length>=3&&x.length<=35).slice(0,5),matches=[];for(let q of queries){let res=await fetch(`https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(q)}`),arr=await res.json();if(Array.isArray(arr)&&arr.length){matches=arr;if(number){let local=number.split('/')[0].replace(/^0+/,'');matches.sort((a,b)=>Number(String(a.localId).replace(/^0+/,'' )!==local)-Number(String(b.localId).replace(/^0+/,'' )!==local))}break}}if(!matches.length&&number){let local=number.split('/')[0];let res=await fetch(`https://api.tcgdex.net/v2/en/cards?localId=${encodeURIComponent(local)}`),arr=await res.json();if(Array.isArray(arr))matches=arr.slice(0,12)}openModal();if(matches.length){let c=matches[0];chooseCatalog({name:c.name,set:String(c.id||'').split('-')[0],no:c.localId||number,image:c.image||''});$('#catalogResults').innerHTML=matches.slice(0,8).map((c,i)=>`<button class="catalog-item" data-i="${i}">${c.image?`<img src="${esc(c.image)}/low.webp" alt="">`:''}<span><strong>${esc(c.name)}</strong><small>${esc(c.id)} · #${esc(c.localId||'')}</small></span></button>`).join('');$$('.catalog-item').forEach(b=>b.onclick=()=>{let c=matches[+b.dataset.i];chooseCatalog({name:c.name,set:String(c.id||'').split('-')[0],no:c.localId||number,image:c.image||''})});$('#scanState').textContent=scanMsg('Znalazłam kandydatów. Wybierz właściwą kartę.','Kandidaten gefunden. Wähle die richtige Karte.','Candidates found. Choose the correct card.')}else{$('#cardName').value=queries[0]||'';$('#cardNo').value=number;$('#scanState').textContent=scanMsg('Nie mam pewnego dopasowania. Popraw tylko brakujące dane.','Keine sichere Übereinstimmung. Nur fehlende Daten korrigieren.','No certain match. Correct only missing data.')}}catch(e){openModal();$('#scanState').textContent=scanMsg('OCR nie uruchomił się. Spróbuj ponownie przy dobrym świetle.','OCR startete nicht. Bei gutem Licht erneut versuchen.','OCR did not start. Try again in good light.')}finally{if(worker)await worker.terminate();$('#photo').value=''}}
+let scanBusy=false;
+async function scanPhoto(file){if(scanBusy)return;scanBusy=true;let worker,bmp,canvas;$('#camera').disabled=true;$('#scanState').textContent=scanMsg('Przygotowuję lekkie zdjęcie…','Leichtes Bild wird vorbereitet…','Preparing a light image…');try{await ensureOCR();bmp=await createImageBitmap(file,{imageOrientation:'from-image',resizeWidth:720,resizeHeight:960,resizeQuality:'high'});canvas=document.createElement('canvas');canvas.width=720;canvas.height=672;let ctx=canvas.getContext('2d',{alpha:false,willReadFrequently:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,720,672);ctx.filter='grayscale(1) contrast(2.15)';ctx.drawImage(bmp,0,0,720,384,0,0,720,384);ctx.drawImage(bmp,0,672,720,288,0,384,720,288);bmp.close();bmp=null;worker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text')$('#scanState').textContent=scanMsg(`Odczyt ${Math.round(m.progress*100)}%`,`Lesen ${Math.round(m.progress*100)}%`,`Reading ${Math.round(m.progress*100)}%`)}});await worker.setParameters({tessedit_pageseg_mode:Tesseract.PSM.SPARSE_TEXT,preserve_interword_spaces:'1'});let result=await worker.recognize(canvas),raw=result.data.text||'';await worker.terminate();worker=null;canvas.width=1;canvas.height=1;canvas=null;let number=((raw.match(/\b\d{1,3}\s*[\/|I]\s*\d{1,3}\b/)||[])[0]||'').replace(/[|I]/,'/').replace(/\s/g,''),lines=raw.split(/\n/).map(x=>x.replace(/[^A-Za-zÀ-ž0-9 .:'&-]/g,' ').replace(/\s+/g,' ').trim()).filter(x=>x.length>2&&!/^(basic|stage|trainer|energy|illustrator|weakness|resistance|retreat)/i.test(x)),queries=lines.map(x=>x.replace(/\b(?:HP)?\s*\d{2,3}\b.*$/i,'').trim()).filter(x=>x.length>=3&&x.length<=35).slice(0,4),matches=[];for(let q of queries){let res=await fetch(`https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(q)}`),arr=await res.json();if(Array.isArray(arr)&&arr.length){matches=arr;if(number){let local=number.split('/')[0].replace(/^0+/,'');matches.sort((a,b)=>Number(String(a.localId).replace(/^0+/,'')!==local)-Number(String(b.localId).replace(/^0+/,'')!==local))}break}}if(!matches.length&&number){let local=number.split('/')[0];let res=await fetch(`https://api.tcgdex.net/v2/en/cards?localId=${encodeURIComponent(local)}`),arr=await res.json();if(Array.isArray(arr))matches=arr.slice(0,12)}openModal();if(matches.length){let c=matches[0];chooseCatalog({name:c.name,set:String(c.id||'').split('-')[0],no:c.localId||number,image:c.image||''});$('#catalogResults').innerHTML=matches.slice(0,6).map((c,i)=>`<button class="catalog-item" data-i="${i}">${c.image?`<img src="${esc(c.image)}/low.webp" alt="">`:''}<span><strong>${esc(c.name)}</strong><small>${esc(c.id)} · #${esc(c.localId||'')}</small></span></button>`).join('');$$('.catalog-item').forEach(b=>b.onclick=()=>{let c=matches[+b.dataset.i];chooseCatalog({name:c.name,set:String(c.id||'').split('-')[0],no:c.localId||number,image:c.image||''})});$('#scanState').textContent=scanMsg('Rozpoznano. Wybierz właściwą kartę.','Erkannt. Wähle die richtige Karte.','Recognized. Choose the correct card.')}else{$('#cardName').value=queries[0]||'';$('#cardNo').value=number;$('#scanState').textContent=scanMsg('Nie rozpoznano. Zrób zdjęcie ponownie.','Nicht erkannt. Foto erneut aufnehmen.','Not recognized. Take the photo again.')}}catch(e){openModal();$('#scanState').textContent=scanMsg('Skan przerwany. Zrób zdjęcie ponownie.','Scan abgebrochen. Foto erneut aufnehmen.','Scan stopped. Take the photo again.')}finally{if(bmp)bmp.close();if(worker)await worker.terminate();if(canvas){canvas.width=1;canvas.height=1}$('#photo').value='';$('#camera').disabled=false;scanBusy=false}}
+function cardNameQueries(raw){
+  const rejected=/^(?:basic|basis|stage|phase|trainer|energy|energie|illustrator|weakness|schwäche|resistance|resistenz|retreat|rückzug|kp|hp)\b/i;
+  const lines=raw.split(/\n/).map(line=>line
+    .replace(/[^A-Za-zÀ-ž0-9 .:'&-]/g,' ')
+    .replace(/\s+/g,' ')
+    .trim()
+    .replace(/^(?:BASIC|BASIS|STAGE\s*\d*|PHASE\s*\d*)\s+/i,'')
+    .replace(/\s+(?:KP|HP)?\s*\d{2,3}\b.*$/i,'')
+    .trim())
+    .filter(line=>line.length>=3&&line.length<=35&&line.replace(/[^A-Za-zÀ-ž]/g,'').length>=3&&!/^\d/.test(line)&&!rejected.test(line));
+  const words=lines.flatMap(line=>line.split(/\s+/)).map(word=>word.replace(/[^A-Za-zÀ-ž'-]/g,'')).filter(word=>word.length>=4&&!rejected.test(word));
+  return [...new Set([...words,...lines])].slice(0,10);
+}
+
+function matchText(value){
+  return String(value||'').toLocaleLowerCase('de').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+}
+function editDistance(a,b){
+  a=matchText(a);b=matchText(b);
+  const row=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){
+    let prev=row[0];row[0]=i;
+    for(let j=1;j<=b.length;j++){
+      let old=row[j];
+      row[j]=Math.min(row[j]+1,row[j-1]+1,prev+(a[i-1]===b[j-1]?0:1));
+      prev=old;
+    }
+  }
+  return row[b.length];
+}
+function nameConfidence(name,queries){
+  const n=matchText(name);
+  if(n.length<3)return 0;
+  return queries.reduce((best,q)=>{
+    const t=matchText(q);
+    if(t.length<4)return best;
+    if(n===t)return 1;
+    if(t.length>=5&&(n.includes(t)||t.includes(n)))return Math.max(best,.9);
+    return Math.max(best,1-editDistance(n,t)/Math.max(n.length,t.length));
+  },0);
+}
+async function resolvedCard(c,fallbackNumber){
+  let setName=String(c.id||'').split('-')[0];
+  try{
+    let lang=String($('#cardLang').value||'en').toLowerCase();
+    let detail=await fetch(`https://api.tcgdex.net/v2/${lang}/cards/${encodeURIComponent(c.id)}`).then(r=>r.ok?r.json():null);
+    setName=detail&&detail.set&&detail.set.name||setName;
+  }catch(_){}
+  chooseCatalog({name:c.name,set:setName,no:c.localId||fallbackNumber,image:c.image||''});
+}
+
+async function scanPhoto(file){
+  if(scanBusy)return;
+  scanBusy=true;
+  let worker,bmp,canvas,cardCanvas,fullFrameCanvas,nameCanvas,nameCanvasShift;
+  $('#camera').disabled=true;
+  $('#scanState').textContent=scanMsg('Przygotowuję lekkie zdjęcie…','Leichtes Bild wird vorbereitet…','Preparing a light image…');
+  let stage='S0';
+  const diag=(code,message,isError=false)=>{stage=code;let el=$('#ocrDiagnostic');if(el){el.textContent=`${code}: ${message}`;el.className='ocr-diagnostic show'+(isError?' error':'')}try{localStorage.setItem('cichydex.lastOcrDiagnostic',`${code}: ${message}`)}catch(_){}};
+  diag('S1','Zdjęcie odebrane');
+  try{
+    stage='S2';diag('S2','Ładowanie silnika OCR');
+    await ensureOCR();
+    stage='S3';diag('S3','Przygotowanie obrazu');
+    bmp=await decodeCardImage(file);
+    let sourceW=bmp.width,sourceH=bmp.height,sourceRatio=sourceW/sourceH,cardRatio=63/88;
+    let sx=0,sy=0,cropW=sourceW,cropH=sourceH;
+    /* Klatka z aparatu ma dokładne proporcje ramki. Zdjęcie z galerii zawiera
+       tło, więc wycinamy centralny obszar karty przesunięty lekko ku górze. */
+    if(Math.abs(sourceRatio-cardRatio)>.018){
+      cropW=Math.round(sourceW*.72);cropH=Math.round(cropW/cardRatio);
+      if(cropH>sourceH*.96){cropH=Math.round(sourceH*.96);cropW=Math.round(cropH*cardRatio)}
+      sx=Math.round((sourceW-cropW)/2);sy=Math.max(0,Math.round(sourceH*.45-cropH/2));
+    }
+    cardCanvas=document.createElement('canvas');cardCanvas.width=900;cardCanvas.height=1258;
+    cardCanvas.getContext('2d',{alpha:false}).drawImage(bmp,sx,sy,cropW,cropH,0,0,900,1258);
+    fullFrameCanvas=document.createElement('canvas');fullFrameCanvas.width=900;fullFrameCanvas.height=1258;
+    fullFrameCanvas.getContext('2d',{alpha:false}).drawImage(bmp,0,0,sourceW,sourceH,0,0,900,1258);
+    let preview=$('#ocrPreview');preview.src=cardCanvas.toDataURL('image/jpeg',.82);preview.className='ocr-preview show';
+    diag('S3',`Klatka ${sourceW}×${sourceH}, kadr ${cropW}×${cropH}, JPEG ${Math.round(file.size/1024)} KB`);
+    nameCanvas=document.createElement('canvas');nameCanvas.width=1800;nameCanvas.height=360;
+    let nameCtx=nameCanvas.getContext('2d',{alpha:false,willReadFrequently:false});
+    nameCtx.fillStyle='#fff';nameCtx.fillRect(0,0,1800,360);nameCtx.filter='grayscale(1) contrast(1.25) brightness(1.08)';
+    /* Nazwa jest odczytywana jako pojedynczy wiersz. Szeroki OCR całej górnej
+       połowy karty mylił ilustrację i ataki z nazwą, mimo poprawnego kadru. */
+    nameCtx.drawImage(cardCanvas,0,0,900,230,0,0,1800,360);
+    nameCanvasShift=document.createElement('canvas');nameCanvasShift.width=1800;nameCanvasShift.height=360;
+    let shiftedCtx=nameCanvasShift.getContext('2d',{alpha:false,willReadFrequently:false});
+    shiftedCtx.fillStyle='#fff';shiftedCtx.fillRect(0,0,1800,360);shiftedCtx.filter='grayscale(1) contrast(1.35) brightness(1.08)';
+    /* W zdjęciu z systemowego aparatu karta często zaczyna się niżej niż
+       centralny kadr. Drugi pas łapie nazwę przesuniętą w dół. */
+    shiftedCtx.drawImage(cardCanvas,0,90,900,250,0,0,1800,360);
+    canvas=document.createElement('canvas');canvas.width=1600;canvas.height=440;
+    let ctx=canvas.getContext('2d',{alpha:false,willReadFrequently:false});
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,1600,220);ctx.filter='grayscale(1) contrast(1.5) brightness(1.05)';
+    /* Numer kolekcjonerski jest wyłącznie w dolnym lewym rogu. Odczyt całej
+       dolnej części błędnie uznawał wartości ataków, np. 2/70, za numer. */
+    ctx.drawImage(cardCanvas,0,1080,560,178,0,0,1600,220);
+    ctx.drawImage(fullFrameCanvas,0,1040,620,218,0,220,1600,220);
+    bmp.close();bmp=null;
+    stage='S4';diag('S4','Uruchamianie plików językowych');
+    worker=await Tesseract.createWorker('eng',1,localOCROptions(m=>{if(m.status==='recognizing text'){let pct=Math.round(m.progress*100);$('#scanState').textContent=scanMsg(`Odczyt ${pct}%`,`Lesen ${pct}%`,`Reading ${pct}%`);diag('S5',`Rozpoznawanie tekstu ${pct}%`)}}));
+    await worker.setParameters({tessedit_pageseg_mode:Tesseract.PSM.SINGLE_LINE,preserve_interword_spaces:'1'});
+    let header=await worker.recognize(nameCanvas);
+    let headerShift=await worker.recognize(nameCanvasShift);
+    await worker.setParameters({tessedit_pageseg_mode:Tesseract.PSM.SPARSE_TEXT,preserve_interword_spaces:'1'});
+    let headerWide=await worker.recognize(cardCanvas,{rectangle:{left:0,top:0,width:900,height:390}});
+    let headerFull=await worker.recognize(fullFrameCanvas,{rectangle:{left:0,top:0,width:900,height:430}});
+    await worker.setParameters({tessedit_pageseg_mode:Tesseract.PSM.SPARSE_TEXT,preserve_interword_spaces:'1',tessedit_char_whitelist:'0123456789/|I '});
+    let footer=await worker.recognize(canvas);
+    let headerText=(header.data.text||'')+'\n'+(headerShift.data.text||'')+'\n'+(headerWide.data.text||'')+'\n'+(headerFull.data.text||'');
+    let raw=headerText+'\n'+(footer.data.text||'');
+    diag('S6',raw.trim()?`Tekst odczytany: ${raw.replace(/\s+/g,' ').trim().slice(0,90)}`:'OCR działa, ale nie znalazł tekstu');
+    await worker.terminate();worker=null;canvas.width=1;canvas.height=1;canvas=null;nameCanvas.width=1;nameCanvas.height=1;nameCanvas=null;nameCanvasShift.width=1;nameCanvasShift.height=1;nameCanvasShift=null;
+    let number=((footer.data.text||'').match(/\b\d{1,3}\s*[\/|I]\s*\d{1,3}\b/)||[])[0]||'';
+    number=number.replace(/[|I]/,'/').replace(/\s/g,'');
+    let queries=cardNameQueries(headerText),matches=[];
+    let selected=String($('#cardLang').value||'en').toLowerCase();
+    let languages=[...new Set([selected==='de'?'de':'en','en'])];
+    for(let q of queries){
+      let qClean=q.replace(/[^A-Za-zÀ-ž-]/g,'').trim();
+      let variants=[...new Set([q,qClean,qClean.length>5?qClean.slice(1):'',qClean.length>5?qClean.slice(0,-1):''].filter(x=>x.length>=3))];
+      for(let candidate of variants){
+       for(let apiLang of languages){
+        let res=await fetch(`https://api.tcgdex.net/v2/${apiLang}/cards?name=${encodeURIComponent(candidate)}`),arr=await res.json();
+        if(Array.isArray(arr)&&arr.length){
+          matches.push(...arr.map(card=>({...card,_score:nameConfidence(card.name,queries)})).filter(card=>card._score>=.72));
+          if(matches.length)break;
+        }
+       }
+       if(matches.length)break;
+      }
+      if(matches.length){
+        let local=number?number.split('/')[0].replace(/^0+/,''):'';
+        matches=[...new Map(matches.map(card=>[card.id,card])).values()];
+        matches.sort((a,b)=>(b._score+(local&&String(b.localId).replace(/^0+/,'')===local?.2:0))-(a._score+(local&&String(a.localId).replace(/^0+/,'')===local?.2:0)));
+        break;
+      }
+    }
+    if(!matches.length&&number){
+      let local=number.split('/')[0].replace(/^0+/,'');
+      for(let apiLang of languages){
+        let res=await fetch(`https://api.tcgdex.net/v2/${apiLang}/cards?localId=${encodeURIComponent(local)}`),arr=await res.json();
+        if(Array.isArray(arr)&&arr.length){matches=arr.slice(0,18).map(card=>({...card,_score:.7}));break}
+      }
+    }
+    openModal();
+    if(matches.length){
+      metric('matched').then(refreshMetrics);
+      let best=matches[0],auto=best._score>=.88;
+      $('#cardName').value=auto?(best.name||''):'';
+      $('#cardSet').value='';$('#cardNo').value=number;chosenImage='';
+      $('#catalogResults').innerHTML=matches.slice(0,12).map((c,i)=>`<button class="catalog-item" data-i="${i}">${c.image?`<img src="${esc(c.image)}/low.webp" alt="">`:''}<span><strong>${esc(c.name)}</strong><small>${esc(c.id)} · #${esc(c.localId||'')}</small></span></button>`).join('');
+      $$('.catalog-item').forEach(b=>b.onclick=()=>resolvedCard(matches[+b.dataset.i],number));
+      if(auto)await resolvedCard(best,number);
+      $('#scanState').textContent=scanMsg(auto?'Rozpoznano. Sprawdź obraz i zatwierdź.':'Wynik niepewny. Wybierz właściwy obraz.','Erkannt. Bild prüfen und bestätigen.','Recognized. Check the image and confirm.');
+      diag('OK',`V${APP_VERSION} | Kamera: działa | Klatka: ${cropW}×${cropH} | OCR: ${raw.replace(/\s+/g,' ').trim().slice(0,55)} | Baza: ${matches.length} | Pewność: ${Math.round(best._score*100)}%`);
+    }else{
+      metric('failed');
+      $('#cardName').value='';$('#cardSet').value='';$('#cardNo').value=number;
+      $('#scanState').textContent=scanMsg('Nie rozpoznano. Zdjęcie zapisano, wpisz tylko nazwę.','Nicht erkannt. Foto gespeichert, nur den Namen eingeben.','Not recognized. Photo saved, enter only the name.');
+      diag('S7',raw.trim()?`Odczytano tekst, ale katalog nie znalazł karty: ${raw.replace(/\s+/g,' ').trim().slice(0,90)}`:'OCR nie odczytał tekstu',true);
+    }
+  }catch(e){
+    metric('failed');
+    openModal();let message=(e&&e.message?e.message:String(e||'nieznany błąd')).slice(0,180);diag(stage,`BŁĄD: ${message}`,true);$('#scanState').textContent=scanMsg('Odczyt zatrzymany — kod błędu jest w formularzu.','Erkennung gestoppt — Fehlercode steht im Formular.','Recognition stopped — error code is in the form.');
+  }finally{
+    if(bmp)bmp.close();if(worker)await worker.terminate();if(canvas){canvas.width=1;canvas.height=1}if(nameCanvas){nameCanvas.width=1;nameCanvas.height=1}if(nameCanvasShift){nameCanvasShift.width=1;nameCanvasShift.height=1}if(cardCanvas){cardCanvas.width=1;cardCanvas.height=1}if(fullFrameCanvas){fullFrameCanvas.width=1;fullFrameCanvas.height=1}
+    $('#photo').value='';$('#camera').disabled=false;scanBusy=false;
+  }
+}
+
+let cameraStream=null;
+function stopLiveCamera(){
+  if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}
+  $('#cameraVideo').srcObject=null;$('#livecam').classList.remove('open');
+}
+async function openLiveCamera(){
+  try{
+    cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:1920}},audio:false});
+    let video=$('#cameraVideo'),track=cameraStream.getVideoTracks()[0];video.srcObject=cameraStream;await video.play();
+    let caps=track.getCapabilities?track.getCapabilities():{},settings={advanced:[]};
+    if(caps.focusMode&&caps.focusMode.includes('continuous'))settings.advanced.push({focusMode:'continuous'});
+    if(caps.zoom){let z=$('#camzoom');z.min=caps.zoom.min;z.max=caps.zoom.max;z.step=caps.zoom.step||.1;z.value=Math.min(caps.zoom.max,Math.max(caps.zoom.min,1));$('#zoomvalue').textContent=Number(z.value).toFixed(1)+'×'}
+    if(settings.advanced.length)track.applyConstraints(settings).catch(()=>{});$('#livecam').classList.add('open');
+  }catch(e){
+    stopLiveCamera();$('#photo').click();
+  }
+}
+async function captureLiveCard(){
+  let video=$('#cameraVideo'),track=cameraStream&&cameraStream.getVideoTracks()[0];if(!video.videoWidth||!video.videoHeight||!track)return;
+  /* Wycinamy dokładnie obraz widoczny między narożnikami podglądu. */
+  let guide=$('.camera-guide'),vr=video.getBoundingClientRect(),gr=guide.getBoundingClientRect();
+  let scale=Math.max(vr.width/video.videoWidth,vr.height/video.videoHeight);
+  let shownW=video.videoWidth*scale,shownH=video.videoHeight*scale;
+  let offsetX=(shownW-vr.width)/2,offsetY=(shownH-vr.height)/2;
+  let sx=Math.max(0,Math.round((gr.left-vr.left+offsetX)/scale));
+  let sy=Math.max(0,Math.round((gr.top-vr.top+offsetY)/scale));
+  let cropW=Math.min(video.videoWidth-sx,Math.round(gr.width/scale));
+  let cropH=Math.min(video.videoHeight-sy,Math.round(gr.height/scale));
+  let canvas=document.createElement('canvas');canvas.width=1260;canvas.height=1760;
+  canvas.getContext('2d',{alpha:false}).drawImage(video,sx,sy,cropW,cropH,0,0,1260,1760);
+  stopLiveCamera();$('#scanState').textContent=scanMsg('Karta wykadrowana. Rozpoznaję…','Karte zugeschnitten. Erkennung…','Card cropped. Recognizing…');
+  let blob=await new Promise(ok=>canvas.toBlob(ok,'image/jpeg',.9));canvas.width=1;canvas.height=1;if(blob)scanPhoto(blob);
+}
+/* Android otwiera teraz własną aplikację aparatu przez input capture.
+   Daje to autofocus, stabilizację i pełną jakość zdjęcia telefonu. */
+$('#camera').onclick=()=>$('#photo').click();
+$('#photo').onchange=()=>{if($('#photo').files.length){metric('scan').then(refreshMetrics);scanPhoto($('#photo').files[0])}};
+$('#shareApp').onclick=shareApp;
+let installPrompt=null;
+const installButton=$('#installApp'),installHelp=$('#installHelp');
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;installButton.hidden=false});
+window.addEventListener('appinstalled',()=>{installPrompt=null;installButton.textContent='Zainstalowano';installHelp.classList.remove('show')});
+installButton.onclick=async()=>{
+  if(window.matchMedia('(display-mode: standalone)').matches){installHelp.textContent='CichyDex jest już zainstalowany na tym telefonie.';installHelp.classList.add('show');return}
+  if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;return}
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  installHelp.textContent=ios?'W Safari wybierz Udostępnij, a następnie Dodaj do ekranu początkowego.':'Otwórz ten link w Chrome, wybierz menu przeglądarki i Zainstaluj aplikację albo Dodaj do ekranu głównego.';
+  installHelp.classList.add('show');
+};
+initMetrics();
+$('#camzoom').oninput=async e=>{let z=Number(e.target.value);$('#zoomvalue').textContent=z.toFixed(1)+'×';let track=cameraStream&&cameraStream.getVideoTracks()[0];if(track)try{await track.applyConstraints({advanced:[{zoom:z}]})}catch(_){}};
+</script>
+</body></html>
